@@ -3,38 +3,53 @@ import { Link } from 'react-router-dom';
 import api from '../api/client';
 import RoomCard from '../components/RoomCard';
 import HeroSearch from '../components/HeroSearch';
-import { CheckCircle2 } from 'lucide-react';
+import { CheckCircle2, AlertCircle } from 'lucide-react';
+
+const FALLBACK_HERO_IMG = 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=2000&q=85';
 
 export default function Home() {
   const [featuredRooms, setFeaturedRooms] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
   const [subscriberEmail, setSubscriberEmail] = useState('');
   const [subscribedSuccess, setSubscribedSuccess] = useState(false);
 
   useEffect(() => {
+    let isMounted = true;
     const loadHomeData = async () => {
       try {
         const roomsRes = await api.get('/room-types');
-        setFeaturedRooms(roomsRes.data.roomTypes?.slice(0, 3) || []);
+        if (isMounted) {
+          const list = roomsRes.data?.roomTypes || [];
+          setFeaturedRooms(list.slice(0, 3));
+          setLoadError(false);
+        }
       } catch (err) {
         console.error('Failed to load home data:', err);
+        if (isMounted) setLoadError(true);
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     };
     loadHomeData();
+    return () => { isMounted = false; };
   }, []);
 
   return (
     <div className="space-y-20 pb-20">
       
       {/* 1. Hero Section */}
-      <section className="relative min-h-[92vh] flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[92vh] flex items-center justify-center overflow-hidden bg-slate-950">
         {/* Background Image with Gradient Overlay */}
         <div className="absolute inset-0 z-0">
           <img
             src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=2000&q=85"
             alt="The Grand Horizon Resort"
+            referrerPolicy="no-referrer"
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = FALLBACK_HERO_IMG;
+            }}
             className="w-full h-full object-cover scale-105 animate-pulse duration-[10000ms]"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-slate-950/40" />
@@ -78,7 +93,7 @@ export default function Home() {
             to="/rooms"
             className="text-sm font-bold text-amber-700 hover:text-amber-800 transition tracking-wide underline underline-offset-4"
           >
-            Explore All 12 Luxury Hotels & Suites
+            Explore All Luxury Suites
           </Link>
         </div>
 
@@ -87,6 +102,12 @@ export default function Home() {
             {[1, 2, 3].map((n) => (
               <div key={n} className="h-96 rounded-2xl bg-slate-200 animate-pulse" />
             ))}
+          </div>
+        ) : loadError ? (
+          <div className="p-8 text-center bg-amber-50 rounded-2xl border border-amber-200 text-amber-900">
+            <AlertCircle className="w-8 h-8 text-amber-600 mx-auto mb-2" />
+            <p className="font-bold">Connecting to Cloud API...</p>
+            <p className="text-sm text-amber-700 mt-1">If the backend was sleeping, please refresh in a few seconds.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -131,7 +152,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 7. Newsletter Subscription Section */}
+      {/* 4. Newsletter Subscription Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-slate-900 rounded-3xl p-8 sm:p-12 text-white flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl border border-amber-900/30">
           <div className="space-y-3">

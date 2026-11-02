@@ -73,7 +73,18 @@ export default function BookingLookup() {
             <div><span className="text-[11px] text-slate-400 font-bold block uppercase">Total</span><span className="font-serif font-bold text-slate-900">ETB {parseFloat(booking.total_amount).toFixed(2)}</span></div>
             <div><span className="text-[11px] text-slate-400 font-bold block uppercase">Paid</span><span className="font-semibold text-emerald-700">ETB {parseFloat(booking.paid_amount).toFixed(2)}</span></div>
           </div>
-          {booking.room_image && <img src={booking.room_image} alt={booking.room_type_name} className="w-full h-48 object-cover rounded-2xl mt-4" />}
+          {booking.room_image && (
+            <img
+              src={booking.room_image}
+              alt={booking.room_type_name}
+              referrerPolicy="no-referrer"
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80';
+              }}
+              className="w-full h-48 object-cover rounded-2xl mt-4"
+            />
+          )}
         </div>
       )}
     </div>

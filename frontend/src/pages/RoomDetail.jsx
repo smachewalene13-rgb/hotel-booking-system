@@ -147,8 +147,13 @@ export default function RoomDetail() {
         {/* Main Large Image */}
         <div className="relative aspect-[16/9] sm:aspect-[21/9] rounded-3xl overflow-hidden shadow-xl bg-slate-950">
           <img
-            src={images[activeImgIndex]?.url}
+            src={images[activeImgIndex]?.url || 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80'}
             alt={images[activeImgIndex]?.caption || room.name}
+            referrerPolicy="no-referrer"
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80';
+            }}
             className="w-full h-full object-cover transition-all duration-500"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-black/20" />
@@ -188,7 +193,16 @@ export default function RoomDetail() {
                   activeImgIndex === idx ? 'border-amber-500 ring-2 ring-amber-500/30' : 'border-transparent opacity-70 hover:opacity-100'
                 }`}
               >
-                <img src={img.url} alt="" className="w-full h-full object-cover" />
+                <img
+                  src={img.url}
+                  alt=""
+                  referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=400&q=80';
+                  }}
+                  className="w-full h-full object-cover"
+                />
               </button>
             ))}
           </div>

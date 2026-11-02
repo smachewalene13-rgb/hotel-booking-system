@@ -1,7 +1,11 @@
 import axios from 'axios';
 
+// In production, fallback directly to the live Render backend if VITE_API_URL is unset
+const prodApiUrl = 'https://hotel-booking-api-qs5a.onrender.com/api/v1';
+const baseURL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? prodApiUrl : '/api/v1');
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || '/api/v1',
+  baseURL,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -22,9 +26,6 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response && error.response.status === 401) {
-      // If unauthorized on protected route, optionally clear
-    }
     return Promise.reject(error);
   }
 );

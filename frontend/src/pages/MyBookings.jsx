@@ -143,6 +143,11 @@ export default function MyBookings() {
                 <img
                   src={b.room_image || 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=400&q=80'}
                   alt={b.room_type_name}
+                  referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=400&q=80';
+                  }}
                   className="w-24 h-24 rounded-2xl object-cover shrink-0 bg-slate-900 shadow-inner"
                 />
                 <div className="space-y-1">

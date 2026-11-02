@@ -40,6 +40,11 @@ export default function RoomCard({ roomType, searchContext = null, onSelect = nu
         <img
           src={images[activeImgIndex]?.url || images[0]?.url}
           alt={roomType.name}
+          referrerPolicy="no-referrer"
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80';
+          }}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
           loading="lazy"
         />
