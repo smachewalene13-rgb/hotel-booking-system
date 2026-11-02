@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    background-color: #f8fafc;
+    color: #1e293b;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  h1, h2, h3, .font-display {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+}
+
+.luxury-gradient {
+  background: linear-gradient(135deg, #0a0f1d 0%, #172033 60%, #1e293b 100%);
+}
+
+.gold-gradient {
+  background: linear-gradient(135deg, #d7a258 0%, #c5872b 100%);
+}
+
+.gold-border {
+  border-color: rgba(197, 135, 43, 0.3);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
