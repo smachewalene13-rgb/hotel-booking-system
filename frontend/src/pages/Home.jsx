@@ -43,14 +43,13 @@ export default function Home() {
         {/* Background Image with Gradient Overlay */}
         <div className="absolute inset-0 z-0">
           <img
-            src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=2000&q=85"
+            src="/images/hero.jpg"
             alt="The Grand Horizon Resort"
-            referrerPolicy="no-referrer"
             onError={(e) => {
               e.currentTarget.onerror = null;
-              e.currentTarget.src = FALLBACK_HERO_IMG;
+              e.currentTarget.src = 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=2000&q=85';
             }}
-            className="w-full h-full object-cover scale-105 animate-pulse duration-[10000ms]"
+            className="w-full h-full object-cover scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-slate-950/40" />
           <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-transparent to-slate-950/80" />

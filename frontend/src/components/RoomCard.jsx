@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function RoomCard({ roomType, searchContext = null, onSelect = null }) {
+  const defaultLocalImg = `/images/room-${roomType.id && roomType.id <= 6 ? roomType.id : 1}.jpg`;
   const images = roomType.images?.length > 0
     ? roomType.images
-    : [{ url: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80' }];
+    : [{ url: defaultLocalImg }];
 
   const [activeImgIndex, setActiveImgIndex] = useState(0);
 
@@ -43,7 +44,7 @@ export default function RoomCard({ roomType, searchContext = null, onSelect = nu
           referrerPolicy="no-referrer"
           onError={(e) => {
             e.currentTarget.onerror = null;
-            e.currentTarget.src = 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80';
+            e.currentTarget.src = defaultLocalImg;
           }}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
           loading="lazy"

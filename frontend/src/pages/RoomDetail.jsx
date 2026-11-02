@@ -94,9 +94,10 @@ export default function RoomDetail() {
     );
   }
 
+  const defaultLocalImg = `/images/room-${room.id && room.id <= 6 ? room.id : 1}.jpg`;
   const images = room.images?.length > 0
     ? room.images
-    : [{ url: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80' }];
+    : [{ url: defaultLocalImg }];
 
   const nights = Math.max(1, Math.round((new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24)));
   const estimatedTotal = parseFloat(room.base_price) * nights * roomsCount;
@@ -147,12 +148,12 @@ export default function RoomDetail() {
         {/* Main Large Image */}
         <div className="relative aspect-[16/9] sm:aspect-[21/9] rounded-3xl overflow-hidden shadow-xl bg-slate-950">
           <img
-            src={images[activeImgIndex]?.url || 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80'}
+            src={images[activeImgIndex]?.url || defaultLocalImg}
             alt={images[activeImgIndex]?.caption || room.name}
             referrerPolicy="no-referrer"
             onError={(e) => {
               e.currentTarget.onerror = null;
-              e.currentTarget.src = 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80';
+              e.currentTarget.src = defaultLocalImg;
             }}
             className="w-full h-full object-cover transition-all duration-500"
           />
